@@ -45,9 +45,9 @@ data <- read.csv(text = x)
 head(data)
 data<-data[,2]
 head(data,10)
+data <- iconv(data, 'UTF-8', 'ASCII')
 docs <- Corpus(VectorSource(data))
 summary(docs)
-
 docs <- tm_map(docs, removePunctuation)  
 docs <- tm_map(docs, removeNumbers)   
 docs <- tm_map(docs, tolower)   
