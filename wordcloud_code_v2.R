@@ -5,7 +5,10 @@ library(tm)
 
 #x <- getURL("https://raw.githubusercontent.com/2020719512/Marketing_SKKU_Data/master/ecovacs-deebot2709.csv")
 data <- read.csv("https://raw.githubusercontent.com/2020719512/Marketing_SKKU_Data/master/ecovacs-deebot2709.csv")
-#data <- read.csv(text = x, encoding = "UTF-8")
+
+stpwords <- read.csv("https://raw.githubusercontent.com/2020719512/Marketing_SKKU_Data/master/stop_words.txt")
+stpwords <- as.vector(unlist(stpwords)) #convert data frame to vector
+
 #head(data)
 data<-data[,2]
 #head(data,10)
@@ -16,6 +19,7 @@ docs <- tm_map(docs, removePunctuation)
 docs <- tm_map(docs, removeNumbers)   
 docs <- tm_map(docs, tolower)   
 docs <- tm_map(docs, removeWords, stopwords("english"))   
+docs <- tm_map(docs, removeWords, stpwords)
 docs <- tm_map(docs, removeWords, c("vacuum", "deebot", "ve", "'s", "don't", "doesn't", "didnt", "'m", "ive", "'s", "will", "much", "'ve", "'m"))
 docs <- tm_map(docs, stripWhitespace)
 
