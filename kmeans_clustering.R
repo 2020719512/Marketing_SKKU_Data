@@ -22,7 +22,7 @@ docs <- tm_map(docs, removePunctuation)
 docs <- tm_map(docs, removeNumbers)   
 docs <- tm_map(docs, tolower)   
 docs <- tm_map(docs, removeWords, stopwords("english"))   
-docs <- tm_map(docs, removeWords, c("vacuum", "deebot", "ve", "'s", "dont", "gets", "getting", "got", "doesnt", "don't", "doesn't", "didnt", "'m", "ive", "'s", "will", "much", "'ve", "'m"))
+docs <- tm_map(docs, removeWords, c("vacuum", "deebot", "ve", "'s", "dont", "gets", "getting", "got", "doesnt", "don't", "doesn't", "didnt", "'m", "ive", "'s", "will", "much", "'ve", "'m", "year", "months", "great"))
 docs <- tm_map(docs, removeWords, stpwords)
 docs <- tm_map(docs, stripWhitespace)
 
@@ -71,14 +71,15 @@ wf <- data.frame(word=names(freq), freq=freq)
 
 library(fpc)   
 library(cluster)  
-dtms <- removeSparseTerms(dtm, 0.935) # Prepare the data (max 15% empty space)   
+dtms <- removeSparseTerms(dtm, 0.915) # Prepare the data (max 15% empty space)   
 d <- dist(t(dtms), method="euclidian")   
 
 k <- 5
+set.seed(123)
 kfit <- kmeans(d,k) 
 plot.new()
 op = par(mfrow = c(1, 1))
-clusplot(as.matrix(d), kfit$cluster, color=T, shade=T, labels=2, lines=0, cex = 0.7,
+clusplot(as.matrix(d), kfit$cluster, color=T, shade=T, labels=2, lines=0, cex = 1,
          main = paste("K-Means Clustering with ", k, "Cluster"))
 
 
