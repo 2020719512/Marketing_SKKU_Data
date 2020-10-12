@@ -22,7 +22,7 @@ docs <- tm_map(docs, removePunctuation)
 docs <- tm_map(docs, removeNumbers)   
 docs <- tm_map(docs, tolower)   
 docs <- tm_map(docs, removeWords, stopwords("english"))   
-docs <- tm_map(docs, removeWords, c("vacuum", "deebot", "ve", "'s", "don't", "doesn't", "didnt", "'m", "ive", "'s", "will", "much", "'ve", "'m"))
+docs <- tm_map(docs, removeWords, c("vacuum", "deebot", "ve", "'s", "dont", "gets", "getting", "got", "doesnt", "don't", "doesn't", "didnt", "'m", "ive", "'s", "will", "much", "'ve", "'m"))
 docs <- tm_map(docs, removeWords, stpwords)
 docs <- tm_map(docs, stripWhitespace)
 
@@ -71,12 +71,16 @@ wf <- data.frame(word=names(freq), freq=freq)
 
 library(fpc)   
 library(cluster)  
-dtms <- removeSparseTerms(dtm, 0.94) # Prepare the data (max 15% empty space)   
+dtms <- removeSparseTerms(dtm, 0.935) # Prepare the data (max 15% empty space)   
 d <- dist(t(dtms), method="euclidian")   
-kfit <- kmeans(d,4) 
+
+k <- 5
+kfit <- kmeans(d,k) 
 plot.new()
 op = par(mfrow = c(1, 1))
-clusplot(as.matrix(d), kfit$cluster, color=T, shade=T, labels=2, lines=0)
+clusplot(as.matrix(d), kfit$cluster, color=T, shade=T, labels=2, lines=0, cex = 0.7,
+         main = paste("K-Means Clustering with ", k, "Cluster"))
+
 
 ------------------------
 # library(cluster)   
@@ -93,6 +97,5 @@ clusplot(as.matrix(d), kfit$cluster, color=T, shade=T, labels=2, lines=0)
 # plot.new()
 # hcd = as.dendrogram(fit)
 # op = par(mfrow = c(2, 1))
-# plot(cut(hcd, h = 100)$upper, main = "Upper tree of cut at h=100")
+# plot(cut(hcd, h = 100)$upper, main = "Upper tree of cut at h=100"))
 # plot(cut(hcd, h = 100)$lower[[2]], main = "Second branch of lower tree with cut at h=100")
-
