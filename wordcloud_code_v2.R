@@ -18,9 +18,10 @@ summary(docs)
 docs <- tm_map(docs, removePunctuation)  
 docs <- tm_map(docs, removeNumbers)   
 docs <- tm_map(docs, tolower)   
-docs <- tm_map(docs, removeWords, stopwords("english"))   
+#docs <- tm_map(docs, removeWords, stopwords("english"))   
 docs <- tm_map(docs, removeWords, stpwords)
-docs <- tm_map(docs, removeWords, c("vacuum", "deebot", "ve", "'s", "don't", "doesn't", "didnt", "'m", "ive", "'s", "will", "much", "'ve", "'m"))
+docs <- tm_map(docs, removeWords, c("robot","roomba", "vacuuming","vacuum", "deebot", "ve", "'s", "don't", "doesn't", "'m", "ive", "'s", "'ve", "'m"))
+
 docs <- tm_map(docs, stripWhitespace)
 
 library(tm)
@@ -63,6 +64,34 @@ freq <- sort(colSums(as.matrix(dtm)), decreasing=TRUE)
 
 wf <- data.frame(word=names(freq), freq=freq)   
 
+
+------------------------------------------------------------
+#word frequency chart
+library(ggplot2)
+
+df <- data.frame(stringsAsFactors=FALSE,
+                 word = head(wf$word, 15),
+                 freq = head(wf$freq, 15)
+)
+
+
+ggplot(df, aes(x = reorder(word, freq), y = freq)) +
+  geom_col() +
+  labs(title="Word Frequency Chart ",
+       x = NULL,
+       y = "Frequency") +
+  coord_flip()
+
+wf <- data.frame(word=names(freq), freq=freq)   
+p <- ggplot(subset(wf, freq > 400), aes(x = reorder(word, -freq), y = freq)) +   labs(title="Word Frequency Chart ",
+                                                                                      x = NULL,
+                                                                                      y = "Frequency")
+# You can modify 300 into your own number for best output
+p <- p + geom_bar(stat="identity")+ theme(axis.text.x=element_text(angle=45, hjust=1))   
+p
+
+-------------------------------------------------------------------------
+
 library(wordcloud)
 dtms <- removeSparseTerms(dtm, 0.9) # Prepare the data (max 15% empty space)   
 freq <- colSums(as.matrix(dtm))# Find word frequencies
@@ -75,3 +104,5 @@ color <- brewer.pal(8, "Accent")
 brewer.pal.info
 
 wordcloud(names(freq), freq, max.words=150, rot.per=0.4, colors=color, random.order=F)
+
+
