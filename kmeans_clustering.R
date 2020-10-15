@@ -22,8 +22,12 @@ docs <- tm_map(docs, removePunctuation)
 docs <- tm_map(docs, removeNumbers)   
 docs <- tm_map(docs, tolower)   
 docs <- tm_map(docs, removeWords, stopwords("english"))   
-docs <- tm_map(docs, removeWords, c("vacuum", "deebot", "ve", "'s", "dont", "gets", "getting", "got", "doesnt", "don't", "doesn't", "didnt", "'m", "ive", "'s", "will", "much", "'ve", "'m", "year", "months", "great"))
-docs <- tm_map(docs, removeWords, stpwords)
+docs <- tm_map(docs, removeWords, c("robot","roomba", "vacuuming","vacuum", "deebot", "ve", "'s", "don't", "doesn't", "'m", "ive", "'s", "'ve", "'m"))
+#docs <- tm_map(docs, removeWords, stpwords)
+
+#remove this words for better clusters
+#docs <- tm_map(docs, removeWords, c("year", "months", "great"))
+
 docs <- tm_map(docs, stripWhitespace)
 
 
@@ -100,3 +104,14 @@ clusplot(as.matrix(d), kfit$cluster, color=T, shade=T, labels=2, lines=0, cex = 
 # op = par(mfrow = c(2, 1))
 # plot(cut(hcd, h = 100)$upper, main = "Upper tree of cut at h=100"))
 # plot(cut(hcd, h = 100)$lower[[2]], main = "Second branch of lower tree with cut at h=100")
+
+
+---------------------------
+  ----------------------------------------------------
+### 3.5  Term Correlations (Co-occurence)
+  # See the description above for more guidance with correlations.
+  # If words always appear together, then correlation=1.0.    
+findAssocs(dtms, "months", corlimit=0.1) # specifying a correlation limit of 0.01
+findAssocs(dtms, "year", corlimit=0.1) # specifying a correlation limit of 0.01
+findAssocs(dtms, "charging", corlimit=0.01) # specifying a correlation limit of 0.01
+##########
