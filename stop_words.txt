@@ -67,7 +67,11 @@ cry
 de
 describe
 detail
+did
 do
+does
+doesnt
+dont
 done
 down
 due
@@ -110,6 +114,8 @@ further
 get
 give
 go
+goes
+going
 had
 has
 hasnt
