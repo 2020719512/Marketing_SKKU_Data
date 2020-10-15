@@ -68,6 +68,7 @@ de
 describe
 detail
 did
+didnt
 do
 does
 doesnt
@@ -112,10 +113,13 @@ front
 full
 further
 get
+getting
+gets
 give
 go
 goes
 going
+got
 had
 has
 hasnt
@@ -157,6 +161,7 @@ least
 less
 ltd
 made
+make
 many
 may
 me
