@@ -16,7 +16,7 @@ docs <- tm_map(docs, removePunctuation)
 docs <- tm_map(docs, removeNumbers)   
 docs <- tm_map(docs, tolower)   
 docs <- tm_map(docs, removeWords, stpwords)
-docs <- tm_map(docs, removeWords, c("the","its","ive","robot","roomba", "vacuuming","vacuum", "deebot", "ve", "'s", "don't", "doesn't", "'m", "ive", "'s", "'ve", "'m"))
+docs <- tm_map(docs, removeWords, c("its","ive","robot","roomba", "vacuuming","vacuum", "deebot", "ve", "'s", "don't", "doesn't", "'m", "ive", "'s", "'ve", "'m"))
 docs <- tm_map(docs, stripWhitespace)
 #docs <- tm_map(docs, removeWords, stopwords("english"))
 
@@ -94,6 +94,8 @@ freq_1 <- freq %>% as.data.frame() %>% arrange(desc(.)) %>% filter(rownames()%in
 freq %>% as.data.frame() %>% arrange(desc(.)) %>% head(200)
 rownames(freq_1)
 color <- brewer.pal(8, "Accent")
+color <- c("#7FC97F", "#BEAED4" ,"#FDC086" ,"#87D4A1" ,"#386CB0", "#F0027F", "#BF5B17","#666666")
+
 brewer.pal.info
 
 wordcloud(names(freq), freq, max.words=150, rot.per=0.4, colors=color, random.order=F)
