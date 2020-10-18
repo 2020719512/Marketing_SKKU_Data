@@ -2,31 +2,24 @@
 library(rvest)
 library(RCurl)
 library(tm)
+library(SnowballC)
 
-#x <- getURL("https://raw.githubusercontent.com/2020719512/Marketing_SKKU_Data/master/ecovacs-deebot2709.csv")
 data <- read.csv("https://raw.githubusercontent.com/2020719512/Marketing_SKKU_Data/master/ecovacs-deebot2709.csv")
 
 stpwords <- read.csv("https://raw.githubusercontent.com/2020719512/Marketing_SKKU_Data/master/stop_words.txt")
 stpwords <- as.vector(unlist(stpwords)) #convert data frame to vector
 
-#head(data)
 data<-data[,2]
-#head(data,10)
-#data2 <- iconv(data, 'UTF-8', 'ASCII')
 docs <- Corpus(VectorSource(data))
 summary(docs)
 docs <- tm_map(docs, removePunctuation)  
 docs <- tm_map(docs, removeNumbers)   
 docs <- tm_map(docs, tolower)   
-#docs <- tm_map(docs, removeWords, stopwords("english"))   
 docs <- tm_map(docs, removeWords, stpwords)
-docs <- tm_map(docs, removeWords, c("robot","roomba", "vacuuming","vacuum", "deebot", "ve", "'s", "don't", "doesn't", "'m", "ive", "'s", "'ve", "'m"))
-
+docs <- tm_map(docs, removeWords, c("the","its","ive","robot","roomba", "vacuuming","vacuum", "deebot", "ve", "'s", "don't", "doesn't", "'m", "ive", "'s", "'ve", "'m"))
 docs <- tm_map(docs, stripWhitespace)
+#docs <- tm_map(docs, removeWords, stopwords("english"))
 
-library(tm)
-#install.packages("SnowballC")
-library(SnowballC)
 dtm <- DocumentTermMatrix(docs)
 inspect(dtm[1:20,1:20])
 dtm <- DocumentTermMatrix(docs)   
