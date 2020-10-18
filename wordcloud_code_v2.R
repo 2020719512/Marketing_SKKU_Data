@@ -16,7 +16,7 @@ docs <- tm_map(docs, removePunctuation)
 docs <- tm_map(docs, removeNumbers)   
 docs <- tm_map(docs, tolower)   
 docs <- tm_map(docs, removeWords, stpwords)
-docs <- tm_map(docs, removeWords, c("its","ive","robot","roomba", "vacuuming","vacuum", "deebot", "ve", "'s", "don't", "doesn't", "'m", "ive", "'s", "'ve", "'m"))
+docs <- tm_map(docs, removeWords, c("its","ive","robot","roomba", "vacuuming","vacuum", "deebot", "ecovacs", "ve", "'s", "don't", "doesn't", "'m", "ive", "'s", "'ve", "'m"))
 docs <- tm_map(docs, stripWhitespace)
 #docs <- tm_map(docs, removeWords, stopwords("english"))
 
