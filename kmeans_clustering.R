@@ -21,12 +21,12 @@ summary(docs)
 docs <- tm_map(docs, removePunctuation)  
 docs <- tm_map(docs, removeNumbers)   
 docs <- tm_map(docs, tolower)   
-docs <- tm_map(docs, removeWords, stopwords("english"))   
+#docs <- tm_map(docs, removeWords, stopwords("english"))   
 docs <- tm_map(docs, removeWords, c("robot","roomba", "vacuuming","vacuum", "deebot", "ve", "'s", "don't", "doesn't", "'m", "ive", "'s", "'ve", "'m"))
 docs <- tm_map(docs, removeWords, stpwords)
 
 #remove this words for better clusters
-#docs <- tm_map(docs, removeWords, c("year", "months", "great"))
+docs <- tm_map(docs, removeWords, c("year", "months", "great"))
 
 docs <- tm_map(docs, stripWhitespace)
 
@@ -78,7 +78,7 @@ library(cluster)
 dtms <- removeSparseTerms(dtm, 0.915) # Prepare the data (max 15% empty space)   
 d <- dist(t(dtms), method="euclidian")   
 
-k <- 5
+k <- 4
 set.seed(123)
 kfit <- kmeans(d,k) 
 plot.new()
@@ -87,30 +87,33 @@ clusplot(as.matrix(d), kfit$cluster, color=T, shade=T, labels=2, lines=0, cex = 
          main = paste("K-Means Clustering with ", k, "Cluster"))
 
 
-------------------------
-# library(cluster)   
+#------------------------
+dtmss <- removeSparseTerms(dtm, 0.99) # This makes a matrix that is only 15% empty space.
+dtmss
+
+library(cluster)   
 d <- dist(t(dtms), method="euclidian")   # First calculate distance between words
 fit <- hclust(d=d, method="complete")    # Also try: method="ward.D"   
 fit
  
 plot.new()
 plot(fit, hang=-1)
-groups <- cutree(fit, k=9)   # "k=" defines the number of clusters you are using   
-rect.hclust(fit, k=, border="red") # draw dendogram with red borders around the 8 clusters   
+groups <- cutree(fit, k=15)   # "k=" defines the number of clusters you are using   
+rect.hclust(fit, k=15, border="red") # draw dendogram with red borders around the 8 clusters   
 # # Try many other k's for the interpretation of your data.
-   
-#plot.new()
-#hcd = as.dendrogram(fit)
-#op = par(mfrow = c(2, 1))
-#plot(cut(hcd, h = 100)$upper, main = "Upper tree of cut at h=100"))
-#plot(cut(hcd, h = 100)$lower[[2]], main = "Second branch of lower tree with cut at h=100")
 
 
----------------------------
-  ----------------------------------------------------
-### 3.5  Term Correlations (Co-occurence)
+plot.new()
+hcd = as.dendrogram(fit)
+op = par(mfrow = c(2, 1))
+plot(cut(hcd, h = 100)$upper, main = "Upper tree of cut at h=100"))
+plot(cut(hcd, h = 100)$lower[[2]], main = "Second branch of lower tree with cut at h=100")
+
+
+#---------------------------
+## 3.5  Term Correlations (Co-occurence)
   # See the description above for more guidance with correlations.
   # If words always appear together, then correlation=1.0.    
-findAssocs(dtms, "stuck", corlimit=0.01) # specifying a correlation limit of 0.01
+findAssocs(dtms, "sensors", corlimit=0.01) # specifying a correlation limit of 0.01
 findAssocs(dtms, "stopped", corlimit=0.1) # specifying a correlation limit of 0.01
 findAssocs(dtms, "clean", corlimit=0.01) # specifying a correlation limit of 0.01
