@@ -22,11 +22,11 @@ docs <- tm_map(docs, removePunctuation)
 docs <- tm_map(docs, removeNumbers)   
 docs <- tm_map(docs, tolower)   
 #docs <- tm_map(docs, removeWords, stopwords("english"))   
-docs <- tm_map(docs, removeWords, c("use", "day","robot","roomba", "vacuuming","vacuum", "deebot", "ve", "¡¯s", "don't", "doesn't", "'m", "ive", "'s", "'ve", "'m"))
+docs <- tm_map(docs, removeWords, c("robot","roomba", "vacuuming","vacuum", "deebot", "ve", "¡¯s", "don't", "doesn't", "'m", "ive", "'s", "'ve", "'m"))
 docs <- tm_map(docs, removeWords, stpwords)
 
 #remove this words for better clusters
-docs <- tm_map(docs, removeWords, c())
+docs <- tm_map(docs, removeWords, c("use", "day", "clean", "hair"))
 
 docs <- tm_map(docs, stripWhitespace)
 
